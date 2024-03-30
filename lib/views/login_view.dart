@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import '../firebase_options.dart';
 
+
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
 
@@ -32,20 +33,21 @@ late final TextEditingController _password;
 
    @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return 
+    Scaffold(
       appBar: AppBar(
         title: const Text('Login'),
         backgroundColor: const Color.fromARGB(255, 233, 58, 116),
         ),
 
-        body: FutureBuilder(
-        future:      
-      Firebase.initializeApp(
-        options:DefaultFirebaseOptions.currentPlatform,
-      ),
-          builder: (context, snapshot) {
+    //     body: FutureBuilder(
+    //     future:      
+    //   Firebase.initializeApp(
+    //     options:DefaultFirebaseOptions.currentPlatform,
+    //   ),
+    //       builder: (context, snapshot) {
 
-            switch(snapshot.connectionState){
+    //         switch(snapshot.connectionState){
               
               // case ConnectionState.none:
               // break;
@@ -54,8 +56,9 @@ late final TextEditingController _password;
               // case ConnectionState.active:
               //  break;   or
 
-              case ConnectionState.done:
-              return Column(
+              // case ConnectionState.done:
+              // return 
+              body : Column(
             children: [
               TextField(
                 controller: _email,
@@ -108,16 +111,23 @@ late final TextEditingController _password;
                  
                 }, child: const Text('Click to Login'), //child wants a widget either image , text, listt etc to display
               ),
+              TextButton(onPressed:() {
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                  '/register/',
+                 (route) => false,
+                 );
+              }, child: Text("Not rgistered yet? Register here!"),)
             ],
-          ); 
+          )
 
-              default:
-              return const Text('Loading...');
+  //             default:
+  //             return const Text('Loading...');
 
-            }
-         },
-        ),
+  //           }
+  //        },
+  //       ),
     );
+
   }
 
-  } //HomePage (LoginView)
+  } // (LoginView)

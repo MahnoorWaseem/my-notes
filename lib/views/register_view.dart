@@ -34,20 +34,21 @@ late final TextEditingController _password;
 
    @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return 
+    Scaffold(
       appBar: AppBar(
         title: const Text('Register'),
         backgroundColor: const Color.fromARGB(255, 233, 58, 116),
         ),
 
-        body: FutureBuilder(
-        future:      
-      Firebase.initializeApp(
-        options:DefaultFirebaseOptions.currentPlatform,
-      ),
-          builder: (context, snapshot) {
+    //     body: FutureBuilder(
+    //     future:      
+    //   Firebase.initializeApp(
+    //     options:DefaultFirebaseOptions.currentPlatform,
+    //   ),
+    //       builder: (context, snapshot) {
 
-            switch(snapshot.connectionState){
+    //         switch(snapshot.connectionState){
               
               // case ConnectionState.none:
               // break;
@@ -56,8 +57,9 @@ late final TextEditingController _password;
               // case ConnectionState.active:
               //  break;   or
 
-              case ConnectionState.done:
-              return Column(
+              // case ConnectionState.done:
+              // return 
+              body: Column(
             children: [
               TextField(
                 controller: _email,
@@ -104,15 +106,18 @@ late final TextEditingController _password;
                  
                 }, child: const Text('Click to register'), //child wants a widget either image , text, listt etc to display
               ),
+              TextButton(onPressed:() {
+                Navigator.of(context).pushNamedAndRemoveUntil('/login/', (route) => false);
+              }, child: const Text('Already registered? Login here!'))
             ],
-          ); 
+          ) 
 
-              default:
-              return const Text('Loading...');
+        //       default:
+        //       return const Text('Loading...');
 
-            }
-         },
-        ),
+        //     }
+        //  },
+        // ),
     );
   }
 }
