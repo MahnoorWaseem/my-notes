@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:mynotes/constants/routes.dart';
 import '../firebase_options.dart'; 
 import 'dart:developer' as devtools show log;
 
@@ -89,7 +90,7 @@ late final TextEditingController _password;
                  //print can take objectt but log nedd string
                 //  devtools.log(userCredential.toString());
                  Navigator.of(context).pushNamedAndRemoveUntil(
-                  '/notes/',
+                  notesRoute,
                    (route) => false,);
                   }
                   on FirebaseAuthException catch(e){
@@ -117,7 +118,7 @@ late final TextEditingController _password;
               ),
               TextButton(onPressed:() {
                 Navigator.of(context).pushNamed(
-                  '/register/',
+                  registerRoute,
                 //  (route) => false,
                  );
               }, child: const Text("Not rgistered yet? Register here!"),)

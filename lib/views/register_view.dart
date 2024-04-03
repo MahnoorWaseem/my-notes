@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:mynotes/constants/routes.dart';
 import '../firebase_options.dart';
 
 // stateful register view
@@ -107,7 +108,7 @@ late final TextEditingController _password;
                 }, child: const Text('Click to register'), //child wants a widget either image , text, listt etc to display
               ),
               TextButton(onPressed:() {
-                Navigator.of(context).pushNamedAndRemoveUntil('/login/', (route) => false);
+                Navigator.of(context).pushNamedAndRemoveUntil(loginRoute, (route) => false);
               }, child: const Text('Already registered? Login here!'))
             ],
           ) 
