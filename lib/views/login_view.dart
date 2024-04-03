@@ -1,7 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import '../firebase_options.dart';
+import '../firebase_options.dart'; 
+import 'dart:developer' as devtools show log;
 
 
 class LoginView extends StatefulWidget {
@@ -85,38 +86,41 @@ late final TextEditingController _password;
                   try{
                     final userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password,
                  );
-                 print('hello');
-                 print(userCredential);
+                 //print can take objectt but log nedd string
+                //  devtools.log(userCredential.toString());
+                 Navigator.of(context).pushNamedAndRemoveUntil(
+                  '/notes/',
+                   (route) => false,);
                   }
                   on FirebaseAuthException catch(e){
                     //to catch specific type of error
-                    print(e.code);
+                    devtools.log(e.code);
                     //e type: FirebaseExceptionAuth
                     if(e.code == 'invalid-credential'){
-                      print('Kindly register first!');
+                      devtools.log('Kindly register first!');
                     }
                     else if(e.code == 'wrong-password'){
-                      print('Password is wrong!!');
-                      print(e.code);
+                      devtools.log('Password is wrong!!');
+                      devtools.log(e.code);
                       //it isnt working btw -- wrng-passsword one
                     }
                   }
                   catch(e){
                     //catch all errors
-                    print('something bad happened!!');
+                    devtools.log('something bad happened!!');
                     //e type : object
-                    print(e);
-                    print(e.runtimeType);
+                    devtools.log(e.toString());
+                    devtools.log((e.runtimeType).toString());
                   }
                  
                 }, child: const Text('Click to Login'), //child wants a widget either image , text, listt etc to display
               ),
               TextButton(onPressed:() {
-                Navigator.of(context).pushNamedAndRemoveUntil(
+                Navigator.of(context).pushNamed(
                   '/register/',
-                 (route) => false,
+                //  (route) => false,
                  );
-              }, child: Text("Not rgistered yet? Register here!"),)
+              }, child: const Text("Not rgistered yet? Register here!"),)
             ],
           )
 

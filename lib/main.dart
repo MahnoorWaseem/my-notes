@@ -26,9 +26,11 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: const HomePage(),
-      routes: { //map
+      //named routes are defined in main function
+      routes: { //map key are string and value are functions that takes builtContext argument and returns a widget
         '/login/':(context) => const LoginView(),
         '/register/':(context) => const RegisterView(),
+        '/notes/':(context) => const NotesView(),
       },
     );
   }
@@ -129,7 +131,7 @@ class _NotesViewState extends State<NotesView> {
               await FirebaseAuth.instance.signOut();//returns promise
               Navigator.of(context).pushNamedAndRemoveUntil(
                 '/login/',
-                 (route) => false);
+                 (route) => false); 
             }
 
             }
