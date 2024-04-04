@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:mynotes/constants/routes.dart';
+import 'package:mynotes/utilities/show_error_dialog.dart';
 import '../firebase_options.dart'; 
 import 'dart:developer' as devtools show log;
 
@@ -98,20 +99,28 @@ late final TextEditingController _password;
                     devtools.log(e.code);
                     //e type: FirebaseExceptionAuth
                     if(e.code == 'invalid-credential'){
-                      devtools.log('Kindly register first!');
+                      await showErrorDialog(context, 'User not found!');
                     }
                     else if(e.code == 'wrong-password'){
                       devtools.log('Password is wrong!!');
                       devtools.log(e.code);
+                      await showErrorDialog(context, 'Wrong Password');
                       //it isnt working btw -- wrng-passsword one
+                    }
+                    else{
+                      //for other firebase auth exceptions
+                      await showErrorDialog(context, 
+                      'Error: ${e.code}');
                     }
                   }
                   catch(e){
-                    //catch all errors
-                    devtools.log('something bad happened!!');
-                    //e type : object
-                    devtools.log(e.toString());
-                    devtools.log((e.runtimeType).toString());
+                    //catch all errors-generic catch block not firebase autth exception
+                    // devtools.log('something bad happened!!');
+                    // //e type : object
+                    // devtools.log(e.toString());
+                    // devtools.log((e.runtimeType).toString());
+                    await showErrorDialog(context, 
+                    'Error: ${e.toString()}');
                   }
                  
                 }, child: const Text('Click to Login'), //child wants a widget either image , text, listt etc to display
@@ -136,3 +145,6 @@ late final TextEditingController _password;
   }
 
   } // (LoginView)
+
+
+
