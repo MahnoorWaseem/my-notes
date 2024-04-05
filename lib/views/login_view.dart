@@ -111,6 +111,7 @@ late final TextEditingController _password;
                       //for other firebase auth exceptions
                       await showErrorDialog(context, 
                       'Error: ${e.code}');
+                      //e is of type firebaseauhexcepttion and exceptin of this ype has a code of type string
                     }
                   }
                   catch(e){
@@ -121,6 +122,7 @@ late final TextEditingController _password;
                     // devtools.log((e.runtimeType).toString());
                     await showErrorDialog(context, 
                     'Error: ${e.toString()}');
+                    //e is of type object
                   }
                  
                 }, child: const Text('Click to Login'), //child wants a widget either image , text, listt etc to display

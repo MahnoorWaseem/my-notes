@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:mynotes/constants/routes.dart';
+import 'package:mynotes/utilities/show_error_dialog.dart';
 import '../firebase_options.dart';
 
 // stateful register view
@@ -85,24 +86,34 @@ late final TextEditingController _password;
                   final email = _email.text;
                   final password = _password.text;
                   try{
-                    final userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password,
+                    // final userCredential = 
+                    await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password,
                  );
-                 print('hello');
-                 print(userCredential);
+                 //we doing email verificattin fr user 
+                 final user = FirebaseAuth.instance.currentUser;
+                 await user?.sendEmailVerification();
+                 Navigator.of(context).pushNamed(verifyEmailRoute);
                   }
                   on FirebaseAuthException catch(e){
                     if(e.code == 'weak-password'){
-                      print('kindly enter strng password!!');
+                      await showErrorDialog(context, 'Weak Password');
+                      
                     }
                     else if(e.code == 'invalid-email'){
-                      print('kindly enter valid email!!');
+                      await showErrorDialog(context, 'Email is invalid');
+                      
                     }
                     else if(e.code == 'email-already-in-use'){
-                      print('Email is already in use');
+                      await showErrorDialog(context, 'Email already in use');
+                     
                     }
                     else{
-                      print(e.code);
+                      //any other firebase exceptions
+                      await showErrorDialog(context,'Error: ${e.code}');
+                      
                     }
+                  } catch(e){
+                    await showErrorDialog(context,'Error: ${e.toString()}');//every obj has a func ttostring()
                   }
                  
                 }, child: const Text('Click to register'), //child wants a widget either image , text, listt etc to display
