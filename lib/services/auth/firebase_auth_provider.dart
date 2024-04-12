@@ -1,6 +1,8 @@
 //we need to import authprovider as is the interface, authuser bc as we login etc are returning authuser so we would need to change the firebase user in to autthuser before returning,  authexception, and this file is going tto talk with firebase directly so firebase also
 import 'dart:async';
 
+import 'package:firebase_core/firebase_core.dart';
+import 'package:mynotes/firebase_options.dart';
 import 'package:mynotes/services/auth/auth_user.dart';
 import 'package:mynotes/services/auth/auth_provider.dart';
 import 'package:mynotes/services/auth/auth_exceptions.dart';
@@ -98,6 +100,13 @@ class FirebaseAuthProvider implements AuthProvider{
    }else{
     throw UserNotLoggedInAuthException();
    }
+  }
+  
+  @override
+  Future<void> initialize() async{
+    await Firebase.initializeApp(
+          options: DefaultFirebaseOptions.currentPlatform,
+        );
   }
 
 }

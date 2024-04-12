@@ -1,9 +1,11 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:mynotes/constants/routes.dart';
+import 'package:mynotes/services/auth/auth_exceptions.dart';
+import 'package:mynotes/services/auth/auth_service.dart';
 import 'package:mynotes/utilities/show_error_dialog.dart';
-import '../firebase_options.dart'; 
+// import '../firebase_options.dart'; 
 import 'dart:developer' as devtools show log;
 
 
@@ -86,10 +88,12 @@ late final TextEditingController _password;
                   final email = _email.text;
                   final password = _password.text;
                   try{
-                    final userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password,
-                 );
-                 final user = FirebaseAuth.instance.currentUser;
-                 if(user?.emailVerified ?? false){
+                    // await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password,);
+                    await AuthService.firebase().logIn(email: email, password: password);
+                 
+                //  final user = FirebaseAuth.instance.currentUser;
+                 final user = AuthService.firebase().currentUser;
+                 if(user?.isEmailVerified ?? false){
                   Navigator.of(context).pushNamedAndRemoveUntil(
                   notesRoute,
                    (route) => false,);
@@ -98,11 +102,18 @@ late final TextEditingController _password;
                   verifyEmailRoute,
                    (route) => false,);
                  }
-                 //print can take objectt but log nedd string
-                //  devtools.log(userCredential.toString());
-                 
+                                  
                   }
-                  on FirebaseAuthException catch(e){
+                  on UserNotFoundAuthException {
+                     await showErrorDialog(context, 'User not found!');
+                  } 
+                  on WrongPasswordAuthException{
+                     await showErrorDialog(context, 'Wrong Password');
+                  }
+                  on GenericAuthException{
+                     await showErrorDialog(context, 'Authentication Error');
+                  }
+                  // on FirebaseAuthException catch(e){
                     // //to catch specific type of error
                     // devtools.log(e.code);
                     // //e type: FirebaseExceptionAuth
@@ -121,17 +132,17 @@ late final TextEditingController _password;
                     //   'Error: ${e.code}');
                     //   //e is of type firebaseauhexcepttion and exceptin of this ype has a code of type string
                     // }
-                  }
-                  catch(e){
-                    //catch all errors-generic catch block not firebase autth exception
-                    // devtools.log('something bad happened!!');
-                    // //e type : object
-                    // devtools.log(e.toString());
-                    // devtools.log((e.runtimeType).toString());
-                    await showErrorDialog(context, 
-                    'Error: ${e.toString()}');
-                    //e is of type object
-                  }
+                  // }
+                  // catch(e){
+                  //   //catch all errors-generic catch block not firebase autth exception
+                  //   // devtools.log('something bad happened!!');
+                  //   // //e type : object
+                  //   // devtools.log(e.toString());
+                  //   // devtools.log((e.runtimeType).toString());
+                  //   await showErrorDialog(context, 
+                  //   'Error: ${e.toString()}');
+                  //   //e is of type object
+                  // }
                  
                 }, child: const Text('Click to Login'), //child wants a widget either image , text, listt etc to display
               ),
