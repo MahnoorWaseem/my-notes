@@ -95,23 +95,23 @@ late final TextEditingController _password;
                  Navigator.of(context).pushNamed(verifyEmailRoute);
                   }
                   on FirebaseAuthException catch(e){
-                    if(e.code == 'weak-password'){
-                      await showErrorDialog(context, 'Weak Password');
+                    // if(e.code == 'weak-password'){
+                    //   await showErrorDialog(context, 'Weak Password');
                       
-                    }
-                    else if(e.code == 'invalid-email'){
-                      await showErrorDialog(context, 'Email is invalid');
+                    // }
+                    // else if(e.code == 'invalid-email'){
+                    //   await showErrorDialog(context, 'Email is invalid');
                       
-                    }
-                    else if(e.code == 'email-already-in-use'){
-                      await showErrorDialog(context, 'Email already in use');
+                    // }
+                    // else if(e.code == 'email-already-in-use'){
+                    //   await showErrorDialog(context, 'Email already in use');
                      
-                    }
-                    else{
-                      //any other firebase exceptions
-                      await showErrorDialog(context,'Error: ${e.code}');
+                    // }
+                    // else{
+                    //   //any other firebase exceptions
+                    //   await showErrorDialog(context,'Error: ${e.code}');
                       
-                    }
+                    // }
                   } catch(e){
                     await showErrorDialog(context,'Error: ${e.toString()}');//every obj has a func ttostring()
                   }
@@ -134,4 +134,5 @@ late final TextEditingController _password;
   }
 }
 
-
+//createUserWithEmailAndPassword()
+//The method is a two-step operation; it will first create the new account (if it does not already exist and the password is valid) and then automatically sign in the user in to that account. 

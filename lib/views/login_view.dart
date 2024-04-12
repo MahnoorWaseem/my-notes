@@ -88,31 +88,39 @@ late final TextEditingController _password;
                   try{
                     final userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password,
                  );
-                 //print can take objectt but log nedd string
-                //  devtools.log(userCredential.toString());
-                 Navigator.of(context).pushNamedAndRemoveUntil(
+                 final user = FirebaseAuth.instance.currentUser;
+                 if(user?.emailVerified ?? false){
+                  Navigator.of(context).pushNamedAndRemoveUntil(
                   notesRoute,
                    (route) => false,);
+                 }else{
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                  verifyEmailRoute,
+                   (route) => false,);
+                 }
+                 //print can take objectt but log nedd string
+                //  devtools.log(userCredential.toString());
+                 
                   }
                   on FirebaseAuthException catch(e){
-                    //to catch specific type of error
-                    devtools.log(e.code);
-                    //e type: FirebaseExceptionAuth
-                    if(e.code == 'invalid-credential'){
-                      await showErrorDialog(context, 'User not found!');
-                    }
-                    else if(e.code == 'wrong-password'){
-                      devtools.log('Password is wrong!!');
-                      devtools.log(e.code);
-                      await showErrorDialog(context, 'Wrong Password');
-                      //it isnt working btw -- wrng-passsword one
-                    }
-                    else{
-                      //for other firebase auth exceptions
-                      await showErrorDialog(context, 
-                      'Error: ${e.code}');
-                      //e is of type firebaseauhexcepttion and exceptin of this ype has a code of type string
-                    }
+                    // //to catch specific type of error
+                    // devtools.log(e.code);
+                    // //e type: FirebaseExceptionAuth
+                    // if(e.code == 'invalid-credential'){
+                    //   await showErrorDialog(context, 'User not found!');
+                    // }
+                    // else if(e.code == 'wrong-password'){
+                    //   devtools.log('Password is wrong!!');
+                    //   devtools.log(e.code);
+                    //   await showErrorDialog(context, 'Wrong Password');
+                    //   //it isnt working btw -- wrng-passsword one
+                    // }
+                    // else{
+                    //   //for other firebase auth exceptions
+                    //   await showErrorDialog(context, 
+                    //   'Error: ${e.code}');
+                    //   //e is of type firebaseauhexcepttion and exceptin of this ype has a code of type string
+                    // }
                   }
                   catch(e){
                     //catch all errors-generic catch block not firebase autth exception
